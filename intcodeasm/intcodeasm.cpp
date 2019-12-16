@@ -822,13 +822,29 @@ namespace intcode {
 		void parse_data_definition(parse_context &context,
 			std::string const &raw_arg) {
 			std::regex const di_arg_regex{
-				"\\s*(([a-zA-Z_][a-zA-Z_0-9]*)\\s*:\\s*)?([^\\s]+)\\s*" };
+				"\\s*(([a-zA-Z_][a-zA-Z_0-9]*)\\s*:\\s*)?(.*\\S)\\s*" };
 			std::smatch m;
 			if (!std::regex_match(raw_arg, m, di_arg_regex))
 				throw_line_error(context, "Malformed argument to DI: " + raw_arg);
 			if (m[2].length() > 0)
 				label_current_address(context, m[2].str());
-			parse_and_push_constant_or_relocation(context, m[3].str());
+			auto values = util::split<std::vector<std::string>>(m[3].str(), std::regex{ "\\s*,\\s*" });
+			std::regex const di_value_regex{ "\\s*(?:(\\S+)|0*([1-9][0-9]*)\\s+[Dd][Uu][Pp]\\s*\\(\\s*(\\S+)\\s*\\))\\s*" };
+			for (auto v : values) {
+				std::smatch m2;
+				if (!std::regex_match(v, m2, di_value_regex))
+					throw_line_error(context, "Malformed argument to DI: " + v);
+				if (m2[1].matched) {
+					parse_and_push_constant_or_relocation(context, m2[1].str());
+				}
+				else {
+					auto count = util::string_to_integer<int>(m2[2]);
+					for (int i = 0; i < count; i++) {
+						parse_and_push_constant_or_relocation(context, m2[3].str());
+					}
+				}
+			}
+			//parse_and_push_constant_or_relocation(context, m[3].str());
 		}
 
 		operand_mode parse_operand(parse_context &context, std::string const &raw) {
