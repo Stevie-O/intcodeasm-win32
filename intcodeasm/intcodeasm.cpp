@@ -754,9 +754,15 @@ namespace intcode {
 			std::size_t operand_count;
 		};
 
+		struct named_address final {
+			std::string symbol;
+			int_fast8_t sign;
+		};
+
 		struct relocation final {
 			std::size_t address;
 			std::string symbol;
+			std::ptrdiff_t sign;
 		};
 
 		struct parse_context final {
@@ -783,15 +789,26 @@ namespace intcode {
 			}
 		}
 
-		std::variant<std::string, memory_cell>
+		std::variant<named_address, memory_cell>
 			parse_constant_or_relocation(parse_context &context, std::string const &raw) {
 			std::regex const number_regex{ "[+-]?[0-9]+" };
-			std::regex const identifier_regex{ "[a-zA-Z_][a-zA-Z0-9_]*" };
+			std::regex const identifier_regex{ "[+-]?[a-zA-Z_][a-zA-Z0-9_]*" };
 			if (std::regex_match(raw, number_regex)) {
 				return util::string_to_integer<memory_cell>(raw);
 			}
 			else if (std::regex_match(raw, identifier_regex)) {
-				return raw;
+				int_fast8_t sign;
+				int skip;
+				if (raw[0] == '+') {
+					sign = 1; skip = 1;
+				}
+				else if (raw[0] == '-') {
+					sign = -1; skip = 1;
+				}
+				else {
+					sign = 1; skip = 0;
+				}
+				return named_address{ raw.substr(skip, raw.length() - skip), sign };
 			}
 			else {
 				throw_line_error(context, "Expected number or identifier: " + raw);
@@ -801,9 +818,10 @@ namespace intcode {
 		void parse_and_push_constant_or_relocation(parse_context &context,
 			std::string const &raw) {
 			auto const value = parse_constant_or_relocation(context, raw);
-			if (std::holds_alternative<std::string>(value)) {
+			if (std::holds_alternative<named_address>(value)) {
+				auto na = std::get<named_address>(value);
 				context.relocations.push_back(
-					relocation{ context.mem.size(), std::get<std::string>(value) });
+					relocation{ context.mem.size(), na.symbol, na.sign });
 				context.mem.push_back(canary_value);
 			}
 			else {
@@ -855,7 +873,7 @@ namespace intcode {
 			std::regex const absolute_operand_regex{
 				"\\[\\s*([+-]?[0-9]+|[a-zA-Z_][a-zA-Z0-9_]*)\\s*\\]" };
 			std::regex const immediate_operand_regex{
-				"[+-]?[0-9]+|[a-zA-Z_][a-zA-Z0-9_]*" };
+				"[+-]?(?:[0-9]+|[a-zA-Z_][a-zA-Z0-9_]*)" };
 
 			std::smatch over_match;
 			if (!std::regex_match(raw, over_match, over_regex))
@@ -960,7 +978,7 @@ namespace intcode {
 			for (relocation const &reloc : context.relocations) {
 				if (auto it = context.labels.find(reloc.symbol);
 					it != context.labels.end()) {
-					context.mem.at(reloc.address) = it->second;
+					context.mem.at(reloc.address) = it->second * static_cast<std::int_fast64_t>(reloc.sign);
 				}
 				else {
 					throw assembly_error{ "Relocation at address " +
