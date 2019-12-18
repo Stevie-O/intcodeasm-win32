@@ -2,7 +2,7 @@
 #include "../lexer-test/symbols.h"
 %}
 
-%o fast freespace case-insensitive header-file
+%o fast freespace case-insensitive header-file bison-bridge
 
 space				[ \t]+
 identifier			[a-zA-Z_][a-zA-Z0-9_$]*

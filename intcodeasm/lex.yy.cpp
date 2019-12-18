@@ -6,6 +6,7 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
+#define REFLEX_OPTION_bison_bridge        true
 #define REFLEX_OPTION_case_insensitive    true
 #define REFLEX_OPTION_fast                true
 #define REFLEX_OPTION_freespace           true
@@ -59,17 +60,37 @@ class Lexer : public reflex::AbstractLexer<reflex::Matcher> {
   }
   static const int INITIAL = 0;
   static const int COMMENT = 1;
-  virtual int lex();
-  int lex(
-      const reflex::Input& input,
-      std::ostream        *os = NULL)
-  {
-    in(input);
-    if (os)
-      out(*os);
-    return lex();
-  }
+  virtual int lex(YYSTYPE& yylval);
 };
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//  BISON BRIDGE                                                              //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
+typedef Lexer yyscanner_t;
+
+typedef void *yyscan_t;
+
+#ifndef YY_EXTERN_C
+#define YY_EXTERN_C
+#endif
+
+YY_EXTERN_C int yylex(YYSTYPE *lvalp, yyscan_t scanner)
+{
+  return static_cast<yyscanner_t*>(scanner)->lex(*lvalp);
+}
+
+YY_EXTERN_C void yylex_init(yyscan_t *scanner)
+{
+  *scanner = static_cast<yyscan_t>(new yyscanner_t);
+}
+
+YY_EXTERN_C void yylex_destroy(yyscan_t scanner)
+{
+  delete static_cast<yyscanner_t*>(scanner);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
@@ -80,7 +101,7 @@ class Lexer : public reflex::AbstractLexer<reflex::Matcher> {
 extern void reflex_code_INITIAL(reflex::Matcher&);
 extern void reflex_code_COMMENT(reflex::Matcher&);
 
-int Lexer::lex()
+int Lexer::lex(YYSTYPE& yylval)
 {
   static const reflex::Pattern PATTERN_INITIAL(reflex_code_INITIAL);
   static const reflex::Pattern PATTERN_COMMENT(reflex_code_COMMENT);
