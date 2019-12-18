@@ -16,10 +16,14 @@ int main()
 	int result;
 	while ((result = lex.lex())) {
 		switch (result) {
-		case INTEGER: cout << "INTEGER" << endl; break;
-		case WORD: cout << "WORD" << endl; break;
-		case ERR: cout << "ERR" << endl; return 1;  break;
-		case EOL: cout << "EOL" << endl; break;
+		case INTEGER: cout << "integer" " " << lex.text() << endl; break;
+		case WORD: cout << "word" " " << lex.text() << endl; break;
+		case ERR: cout << "invalid" " " << lex.text() << endl; return 1;  break;
+		case EOL: cout << "eol" << endl; break;
+		case MNEMONIC: cout << "mnemonic" " " << lex.text() << endl; break;
+		case KEYWORD_DI: cout << "keyword 'DI'" " " << lex.text() << endl; break;
+		case KEYWORD_BP: cout << "keyword 'BP'" " " << lex.text() << endl; break;
+
 		default:
 			if (result <= ' ') {
 				std::ios_base::fmtflags f(cout.flags());

@@ -18,6 +18,23 @@ eol					\r?\n
 {eol}				{ return '\n'; }
 {space}				{ /* ignore */ }
 ;					{ start(COMMENT); }
+
+BP { return KEYWORD_BP; }
+
+ADD |
+MUL |
+INP |
+OUT |
+JNZ |
+JZ  |
+CMPLT |
+CMPEQ |
+ABP |
+HALT		{ return MNEMONIC; }
+
+DI 			{ return KEYWORD_DI; }
+
+
 {identifier}		{ return WORD; }
 [][,+:()-]			{ return text()[0]; }
 {integer}			{ return INTEGER; }
