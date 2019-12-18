@@ -15,7 +15,7 @@ eol					\r?\n
 
 %%
 
-{eol}				{ return '\n'; }
+{eol}				{ return EOL; }
 {space}				{ /* ignore */ }
 ;					{ start(COMMENT); }
 

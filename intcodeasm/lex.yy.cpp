@@ -108,7 +108,7 @@ int Lexer::lex()
             break;
           case 1: // rule at line 18: (?:\r?\n)
 #line 18 "intcodeasm.l"
-{ return '\n'; }
+{ return EOL; }
             break;
           case 2: // rule at line 19: (?:[\x09\x20]+)
 #line 19 "intcodeasm.l"
