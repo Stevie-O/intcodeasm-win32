@@ -8,13 +8,17 @@
 
 using namespace std;
 
-int main()
+void yy::parser::error(const location_type& l, const std::string& m)
 {
-	reflex::Input input(stdin, reflex::Input::file_encoding::utf8);
-	Lexer lex(input);
+	cout << "at " << l << ": " << m << endl;
+}
 
-	int result;
-	while ((result = lex.lex())) {
+int lex_only(yy::Lexer& lex)
+{
+	while (1) {
+		auto lex_info = lex.lex();
+		auto result = lex_info.type;
+		if (result == 0) return 0;
 		switch (result) {
 		case INTEGER: cout << "integer" " " << lex.text() << endl; break;
 		case WORD: cout << "word" " " << lex.text() << endl; break;
@@ -38,8 +42,16 @@ int main()
 		}
 		//cout << result << endl;
 	}
+}
 
-	return 0;
+int main()
+{
+	reflex::Input input(stdin, reflex::Input::file_encoding::utf8);
+	yy::Lexer lex(input);
+
+	// return lex_only(lex);
+	yy::parser parser(lex);
+	return parser.parse();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

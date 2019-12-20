@@ -167,11 +167,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\intcodeasm\intcodeasm.tab.hh" />
     <ClInclude Include="..\intcodeasm\lex.yy.h" />
+    <ClInclude Include="..\intcodeasm\location.hh" />
+    <ClInclude Include="..\intcodeasm\position.hh" />
+    <ClInclude Include="..\intcodeasm\stack.hh" />
+    <ClInclude Include="..\intcodeasm\util.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="symbols.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\intcodeasm\intcodeasm.tab.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\intcodeasm\lex.yy.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
