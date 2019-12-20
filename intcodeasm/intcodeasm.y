@@ -53,10 +53,13 @@ argument: absolute_argument
 labeled_argument: argument						  { lexer.out() << "(label-less argument)" << endl; }
 	| label_definition argument					  { lexer.out() << "(labeled argument)" << endl; }
 
-argument_list: labeled_argument
+argument_list
+		: labeled_argument
 		| labeled_argument ',' argument_list
 
-instruction: MNEMONIC argument_list				 {  lexer.out() << "(instruction) '" << $1 << "'" << endl; }
+instruction
+		: MNEMONIC
+		| MNEMONIC argument_list				 {  lexer.out() << "(instruction) '" << $1 << "'" << endl; }
 optional_instruction: 							 { lexer.out() << "(no instruction)" << endl; }
 	| instruction
 

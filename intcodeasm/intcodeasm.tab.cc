@@ -660,26 +660,26 @@ namespace yy {
 #line 661 "intcodeasm.tab.cc"
     break;
 
-  case 21:
-#line 59 "intcodeasm.y"
+  case 22:
+#line 62 "intcodeasm.y"
     {  lexer.out() << "(instruction) '" << yystack_[1].value.as < std::string > () << "'" << endl; }
 #line 667 "intcodeasm.tab.cc"
     break;
 
-  case 22:
-#line 60 "intcodeasm.y"
+  case 23:
+#line 63 "intcodeasm.y"
     { lexer.out() << "(no instruction)" << endl; }
 #line 673 "intcodeasm.tab.cc"
     break;
 
-  case 24:
-#line 63 "intcodeasm.y"
+  case 25:
+#line 66 "intcodeasm.y"
     { lexer.out() << "(instruction-statement)" << endl; }
 #line 679 "intcodeasm.tab.cc"
     break;
 
-  case 25:
-#line 64 "intcodeasm.y"
+  case 26:
+#line 67 "intcodeasm.y"
     { lexer.out() << "(di-statement)" << endl; }
 #line 685 "intcodeasm.tab.cc"
     break;
@@ -973,10 +973,10 @@ namespace yy {
   const unsigned char
   parser::yydefact_[] =
   {
-       5,     0,     0,     6,    22,    26,    27,     5,     4,     1,
-       0,     0,    23,     0,     3,     7,     8,     0,     0,    13,
-      15,    14,    16,    17,    19,    21,     0,    24,     7,     0,
-       0,    18,     0,    25,     0,     0,     0,    12,    20,     9,
+       5,     0,     0,     6,    23,    27,    28,     5,     4,     1,
+      21,     0,    24,     0,     3,     7,     8,     0,     0,    13,
+      15,    14,    16,    17,    19,    22,     0,    25,     7,     0,
+       0,    18,     0,    26,     0,     0,     0,    12,    20,     9,
       10,    11
   };
 
@@ -1029,7 +1029,7 @@ namespace yy {
   {
        0,    15,    16,    16,    17,    18,    18,    19,    19,    20,
       20,    21,    22,    23,    24,    24,    24,    25,    25,    26,
-      26,    27,    28,    28,    29,    30,    31,    31
+      26,    27,    27,    28,    28,    29,    30,    31,    31
   };
 
   const unsigned char
@@ -1037,7 +1037,7 @@ namespace yy {
   {
        0,     2,     1,     2,     2,     0,     1,     1,     1,     2,
        2,     4,     3,     1,     1,     1,     1,     1,     2,     1,
-       3,     2,     0,     1,     3,     4,     1,     1
+       3,     1,     2,     0,     1,     3,     4,     1,     1
   };
 
 
@@ -1062,8 +1062,8 @@ namespace yy {
   parser::yyrline_[] =
   {
        0,    35,    35,    36,    38,    39,    40,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    53,    54,    56,
-      57,    59,    60,    61,    63,    64,    66,    67
+      45,    46,    47,    48,    49,    50,    51,    53,    54,    57,
+      58,    61,    62,    63,    64,    66,    67,    69,    70
   };
 
   // Print the state stack on the debug stream.
@@ -1100,5 +1100,5 @@ namespace yy {
 } // yy
 #line 1102 "intcodeasm.tab.cc"
 
-#line 69 "intcodeasm.y"
+#line 72 "intcodeasm.y"
 
