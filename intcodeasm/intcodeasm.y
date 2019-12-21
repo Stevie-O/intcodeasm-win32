@@ -36,7 +36,7 @@ program: statement { lexer.out() << "statement" << endl; }
 	| statement program
 
 label_definition: IDENTIFIER ':' { lexer.out() << "(label) '" << $1 << "'" << endl; }
-optional_label: 
+optional_label:
 	| label_definition			{ lexer.out() << "(optional-label)" << endl; }
 
 argument_expression: IDENTIFIER	{ lexer.out() << "(argument-expression.IDENTIFIER) '" << $1 << "'" << endl; }
@@ -58,7 +58,7 @@ argument_list
 		| labeled_argument ',' argument_list
 
 instruction
-		: MNEMONIC
+		: MNEMONIC								 { lexer.out() << "(instruction) '" << $1 << "'" << endl; }
 		| MNEMONIC argument_list				 {  lexer.out() << "(instruction) '" << $1 << "'" << endl; }
 optional_instruction: 							 { lexer.out() << "(no instruction)" << endl; }
 	| instruction

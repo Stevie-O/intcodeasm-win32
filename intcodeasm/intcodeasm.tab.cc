@@ -660,32 +660,38 @@ namespace yy {
 #line 661 "intcodeasm.tab.cc"
     break;
 
+  case 21:
+#line 61 "intcodeasm.y"
+    { lexer.out() << "(instruction) '" << yystack_[0].value.as < std::string > () << "'" << endl; }
+#line 667 "intcodeasm.tab.cc"
+    break;
+
   case 22:
 #line 62 "intcodeasm.y"
     {  lexer.out() << "(instruction) '" << yystack_[1].value.as < std::string > () << "'" << endl; }
-#line 667 "intcodeasm.tab.cc"
+#line 673 "intcodeasm.tab.cc"
     break;
 
   case 23:
 #line 63 "intcodeasm.y"
     { lexer.out() << "(no instruction)" << endl; }
-#line 673 "intcodeasm.tab.cc"
+#line 679 "intcodeasm.tab.cc"
     break;
 
   case 25:
 #line 66 "intcodeasm.y"
     { lexer.out() << "(instruction-statement)" << endl; }
-#line 679 "intcodeasm.tab.cc"
+#line 685 "intcodeasm.tab.cc"
     break;
 
   case 26:
 #line 67 "intcodeasm.y"
     { lexer.out() << "(di-statement)" << endl; }
-#line 685 "intcodeasm.tab.cc"
+#line 691 "intcodeasm.tab.cc"
     break;
 
 
-#line 689 "intcodeasm.tab.cc"
+#line 695 "intcodeasm.tab.cc"
 
             default:
               break;
@@ -1098,7 +1104,7 @@ namespace yy {
 
 #line 4 "intcodeasm.y"
 } // yy
-#line 1102 "intcodeasm.tab.cc"
+#line 1108 "intcodeasm.tab.cc"
 
 #line 72 "intcodeasm.y"
 

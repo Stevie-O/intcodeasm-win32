@@ -5,16 +5,35 @@
 #include "util.h"
 %}
 
+/* https://github.com/Genivia/RE-flex */
+
+
 %o fast freespace case-insensitive header-file
 %option bison-complete
 %option bison-cc-namespace=yy
 %option bison-cc-parser=parser
 %option bison-locations
 
+%class{
+ protected:
+	bool 	need_eol;
+%}
+
+%init {
+	need_eol = true;
+%}
+
 /* throw an exception in the scanner's default rule */
 %option exception="yy::parser::syntax_error(location(), \"Unknown token.\")"
 
 %option namespace=yy
+
+%{
+
+// test
+
+%}
+
 
 
 space				[ \t]+
@@ -58,5 +77,13 @@ DI 					{ return yy::parser::make_KEYWORD_DI(location()); }
 }
 
 <*>.				{ throw yy::parser::syntax_error(location(), "Unexpected character"); }
+
+%option 
+
+<<EOF>> {
+	out << "
+	if (need_eol) { need_eol = false; return yy::parser::make_EOL(location()); }
+	return yy::parser::symbol_type();
+}
 
 %%

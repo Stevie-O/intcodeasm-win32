@@ -67,6 +67,11 @@
 namespace yy {
 
 class Lexer : public reflex::AbstractLexer<reflex::Matcher> {
+#line 14 "intcodeasm.l"
+
+ protected:
+	bool 	need_eol;
+
  public:
   typedef reflex::AbstractLexer<reflex::Matcher> AbstractBaseLexer;
   Lexer(
@@ -75,6 +80,10 @@ class Lexer : public reflex::AbstractLexer<reflex::Matcher> {
     :
       AbstractBaseLexer(input, os)
   {
+#line 19 "intcodeasm.l"
+
+	need_eol = true;
+
   }
   static const int INITIAL = 0;
   static const int COMMENT = 1;
