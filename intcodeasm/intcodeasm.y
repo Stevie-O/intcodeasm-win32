@@ -1,6 +1,7 @@
 %language "c++"
 
 /* %define api.pure full */
+%define parse.trace
 %define api.namespace {yy}
 %define api.parser.class {parser}
 %define api.value.type variant
@@ -32,8 +33,9 @@
 
 %%
 
-program: statement { lexer.out() << "statement" << endl; }
-	| statement program
+program
+	: statement { lexer.out() << "statement(1)" << endl; }
+	| program statement { lexer.out() << "statement(2)" << endl; }
 
 label_definition: IDENTIFIER ':' { lexer.out() << "(label) '" << $1 << "'" << endl; }
 optional_label:
@@ -55,7 +57,7 @@ labeled_argument: argument						  { lexer.out() << "(label-less argument)" << en
 
 argument_list
 		: labeled_argument
-		| labeled_argument ',' argument_list
+		| argument_list ',' labeled_argument
 
 instruction
 		: MNEMONIC								 { lexer.out() << "(instruction) '" << $1 << "'" << endl; }

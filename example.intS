@@ -37,3 +37,5 @@ di temp_area:0
 ; Instruction mnemonics are case-insensitive.
 ; In order of opcode value (starting from 1), they are:
 ; ADD, MUL, INP, OUT, JNZ, JZ, CMPLT, CMPEQ, ABP
+
+halt

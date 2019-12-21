@@ -44,13 +44,15 @@ int lex_only(yy::Lexer& lex)
 	}
 }
 
-int main()
+int main(int argc, char **argv)
 {
 	reflex::Input input(stdin, reflex::Input::file_encoding::utf8);
 	yy::Lexer lex(input);
 
 	// return lex_only(lex);
 	yy::parser parser(lex);
+	if (argc >= 2 && !strcmp(argv[1], "-d"))
+		parser.set_debug_level(1);
 	return parser.parse();
 }
 

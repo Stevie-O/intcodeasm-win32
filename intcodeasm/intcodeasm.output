@@ -3,20 +3,20 @@ Grammar
     0 $accept: program $end
 
     1 program: statement
-    2        | statement statement
+    2        | program statement
 
-    3 label_definition: IDENTIFIER ':'
+    3 label_definition: "identifier" ':'
 
     4 optional_label: %empty
     5               | label_definition
 
-    6 argument_expression: IDENTIFIER
-    7                    | INTEGER
+    6 argument_expression: "identifier"
+    7                    | "integer"
 
     8 bp_modifier: '+' argument_expression
     9            | '-' argument_expression
 
-   10 relative_argument: '[' BP bp_modifier ']'
+   10 relative_argument: '[' "BP" bp_modifier ']'
 
    11 absolute_argument: '[' argument_expression ']'
 
@@ -30,19 +30,20 @@ Grammar
    17                 | label_definition argument
 
    18 argument_list: labeled_argument
-   19              | labeled_argument ',' argument_list
+   19              | argument_list ',' labeled_argument
 
-   20 instruction: MNEMONIC argument_list
+   20 instruction: "mnemonic"
+   21            | "mnemonic" argument_list
 
-   21 optional_instruction: %empty
-   22                     | instruction
+   22 optional_instruction: %empty
+   23                     | instruction
 
-   23 instruction_statement: optional_label optional_instruction EOL
+   24 instruction_statement: optional_label optional_instruction "end-of-line"
 
-   24 di_statement: optional_label DI argument_list EOL
+   25 di_statement: optional_label "DI" argument_list "end-of-line"
 
-   25 statement: instruction_statement
-   26          | di_statement
+   26 statement: instruction_statement
+   27          | di_statement
 
 
 Terminals, with rules where they appear
@@ -55,12 +56,12 @@ Terminals, with rules where they appear
     '[' (91) 10 11
     ']' (93) 10 11
     error (256)
-    MNEMONIC (258) 20
-    IDENTIFIER (259) 3 6
-    BP (260) 10
-    DI (261) 24
-    INTEGER (262) 7
-    EOL (263) 23 24
+    "mnemonic" <std::string> (258) 20 21
+    "identifier" <std::string> (259) 3 6
+    "BP" (260) 10
+    "DI" (261) 25
+    "integer" <intmax_t> (262) 7
+    "end-of-line" (263) 24 25
 
 
 Nonterminals, with rules where they appear
@@ -69,13 +70,13 @@ Nonterminals, with rules where they appear
         on left: 0
     program (16)
         on left: 1 2
-        on right: 0
+        on right: 0 2
     label_definition (17)
         on left: 3
         on right: 5 17
     optional_label (18)
         on left: 4 5
-        on right: 23 24
+        on right: 24 25
     argument_expression (19)
         on left: 6 7
         on right: 8 9 11 12
@@ -99,21 +100,21 @@ Nonterminals, with rules where they appear
         on right: 18 19
     argument_list (26)
         on left: 18 19
-        on right: 19 20 24
+        on right: 19 21 25
     instruction (27)
-        on left: 20
-        on right: 22
-    optional_instruction (28)
-        on left: 21 22
+        on left: 20 21
         on right: 23
+    optional_instruction (28)
+        on left: 22 23
+        on right: 24
     instruction_statement (29)
-        on left: 23
-        on right: 25
-    di_statement (30)
         on left: 24
         on right: 26
+    di_statement (30)
+        on left: 25
+        on right: 27
     statement (31)
-        on left: 25 26
+        on left: 26 27
         on right: 1 2
 
 
@@ -121,7 +122,7 @@ State 0
 
     0 $accept: . program $end
 
-    IDENTIFIER  shift, and go to state 1
+    "identifier"  shift, and go to state 1
 
     $default  reduce using rule 4 (optional_label)
 
@@ -135,7 +136,7 @@ State 0
 
 State 1
 
-    3 label_definition: IDENTIFIER . ':'
+    3 label_definition: "identifier" . ':'
 
     ':'  shift, and go to state 8
 
@@ -143,8 +144,18 @@ State 1
 State 2
 
     0 $accept: program . $end
+    2 program: program . statement
 
-    $end  shift, and go to state 9
+    $end          shift, and go to state 9
+    "identifier"  shift, and go to state 1
+
+    $default  reduce using rule 4 (optional_label)
+
+    label_definition       go to state 3
+    optional_label         go to state 4
+    instruction_statement  go to state 5
+    di_statement           go to state 6
+    statement              go to state 10
 
 
 State 3
@@ -156,52 +167,42 @@ State 3
 
 State 4
 
-   23 instruction_statement: optional_label . optional_instruction EOL
-   24 di_statement: optional_label . DI argument_list EOL
+   24 instruction_statement: optional_label . optional_instruction "end-of-line"
+   25 di_statement: optional_label . "DI" argument_list "end-of-line"
 
-    MNEMONIC  shift, and go to state 10
-    DI        shift, and go to state 11
+    "mnemonic"  shift, and go to state 11
+    "DI"        shift, and go to state 12
 
-    $default  reduce using rule 21 (optional_instruction)
+    $default  reduce using rule 22 (optional_instruction)
 
-    instruction           go to state 12
-    optional_instruction  go to state 13
+    instruction           go to state 13
+    optional_instruction  go to state 14
 
 
 State 5
 
-   25 statement: instruction_statement .
+   26 statement: instruction_statement .
 
-    $default  reduce using rule 25 (statement)
+    $default  reduce using rule 26 (statement)
 
 
 State 6
 
-   26 statement: di_statement .
+   27 statement: di_statement .
 
-    $default  reduce using rule 26 (statement)
+    $default  reduce using rule 27 (statement)
 
 
 State 7
 
     1 program: statement .
-    2        | statement . statement
 
-    IDENTIFIER  shift, and go to state 1
-
-    $end      reduce using rule 1 (program)
-    $default  reduce using rule 4 (optional_label)
-
-    label_definition       go to state 3
-    optional_label         go to state 4
-    instruction_statement  go to state 5
-    di_statement           go to state 6
-    statement              go to state 14
+    $default  reduce using rule 1 (program)
 
 
 State 8
 
-    3 label_definition: IDENTIFIER ':' .
+    3 label_definition: "identifier" ':' .
 
     $default  reduce using rule 3 (label_definition)
 
@@ -215,11 +216,21 @@ State 9
 
 State 10
 
-   20 instruction: MNEMONIC . argument_list
+    2 program: program statement .
 
-    IDENTIFIER  shift, and go to state 15
-    INTEGER     shift, and go to state 16
-    '['         shift, and go to state 17
+    $default  reduce using rule 2 (program)
+
+
+State 11
+
+   20 instruction: "mnemonic" .
+   21            | "mnemonic" . argument_list
+
+    "identifier"  shift, and go to state 15
+    "integer"     shift, and go to state 16
+    '['           shift, and go to state 17
+
+    $default  reduce using rule 20 (instruction)
 
     label_definition     go to state 18
     argument_expression  go to state 19
@@ -231,13 +242,13 @@ State 10
     argument_list        go to state 25
 
 
-State 11
+State 12
 
-   24 di_statement: optional_label DI . argument_list EOL
+   25 di_statement: optional_label "DI" . argument_list "end-of-line"
 
-    IDENTIFIER  shift, and go to state 15
-    INTEGER     shift, and go to state 16
-    '['         shift, and go to state 17
+    "identifier"  shift, and go to state 15
+    "integer"     shift, and go to state 16
+    '['           shift, and go to state 17
 
     label_definition     go to state 18
     argument_expression  go to state 19
@@ -249,31 +260,24 @@ State 11
     argument_list        go to state 26
 
 
-State 12
-
-   22 optional_instruction: instruction .
-
-    $default  reduce using rule 22 (optional_instruction)
-
-
 State 13
 
-   23 instruction_statement: optional_label optional_instruction . EOL
+   23 optional_instruction: instruction .
 
-    EOL  shift, and go to state 27
+    $default  reduce using rule 23 (optional_instruction)
 
 
 State 14
 
-    2 program: statement statement .
+   24 instruction_statement: optional_label optional_instruction . "end-of-line"
 
-    $default  reduce using rule 2 (program)
+    "end-of-line"  shift, and go to state 27
 
 
 State 15
 
-    3 label_definition: IDENTIFIER . ':'
-    6 argument_expression: IDENTIFIER .
+    3 label_definition: "identifier" . ':'
+    6 argument_expression: "identifier" .
 
     ':'  shift, and go to state 8
 
@@ -282,19 +286,19 @@ State 15
 
 State 16
 
-    7 argument_expression: INTEGER .
+    7 argument_expression: "integer" .
 
     $default  reduce using rule 7 (argument_expression)
 
 
 State 17
 
-   10 relative_argument: '[' . BP bp_modifier ']'
+   10 relative_argument: '[' . "BP" bp_modifier ']'
    11 absolute_argument: '[' . argument_expression ']'
 
-    IDENTIFIER  shift, and go to state 28
-    BP          shift, and go to state 29
-    INTEGER     shift, and go to state 16
+    "identifier"  shift, and go to state 28
+    "BP"          shift, and go to state 29
+    "integer"     shift, and go to state 16
 
     argument_expression  go to state 30
 
@@ -303,9 +307,9 @@ State 18
 
    17 labeled_argument: label_definition . argument
 
-    IDENTIFIER  shift, and go to state 28
-    INTEGER     shift, and go to state 16
-    '['         shift, and go to state 17
+    "identifier"  shift, and go to state 28
+    "integer"     shift, and go to state 16
+    '['           shift, and go to state 17
 
     argument_expression  go to state 19
     relative_argument    go to state 20
@@ -352,44 +356,46 @@ State 23
 State 24
 
    18 argument_list: labeled_argument .
-   19              | labeled_argument . ',' argument_list
-
-    ','  shift, and go to state 32
 
     $default  reduce using rule 18 (argument_list)
 
 
 State 25
 
-   20 instruction: MNEMONIC argument_list .
+   19 argument_list: argument_list . ',' labeled_argument
+   21 instruction: "mnemonic" argument_list .
 
-    $default  reduce using rule 20 (instruction)
+    ','  shift, and go to state 32
+
+    $default  reduce using rule 21 (instruction)
 
 
 State 26
 
-   24 di_statement: optional_label DI argument_list . EOL
+   19 argument_list: argument_list . ',' labeled_argument
+   25 di_statement: optional_label "DI" argument_list . "end-of-line"
 
-    EOL  shift, and go to state 33
+    "end-of-line"  shift, and go to state 33
+    ','            shift, and go to state 32
 
 
 State 27
 
-   23 instruction_statement: optional_label optional_instruction EOL .
+   24 instruction_statement: optional_label optional_instruction "end-of-line" .
 
-    $default  reduce using rule 23 (instruction_statement)
+    $default  reduce using rule 24 (instruction_statement)
 
 
 State 28
 
-    6 argument_expression: IDENTIFIER .
+    6 argument_expression: "identifier" .
 
     $default  reduce using rule 6 (argument_expression)
 
 
 State 29
 
-   10 relative_argument: '[' BP . bp_modifier ']'
+   10 relative_argument: '[' "BP" . bp_modifier ']'
 
     '+'  shift, and go to state 34
     '-'  shift, and go to state 35
@@ -413,11 +419,11 @@ State 31
 
 State 32
 
-   19 argument_list: labeled_argument ',' . argument_list
+   19 argument_list: argument_list ',' . labeled_argument
 
-    IDENTIFIER  shift, and go to state 15
-    INTEGER     shift, and go to state 16
-    '['         shift, and go to state 17
+    "identifier"  shift, and go to state 15
+    "integer"     shift, and go to state 16
+    '['           shift, and go to state 17
 
     label_definition     go to state 18
     argument_expression  go to state 19
@@ -425,23 +431,22 @@ State 32
     absolute_argument    go to state 21
     immediate_argument   go to state 22
     argument             go to state 23
-    labeled_argument     go to state 24
-    argument_list        go to state 38
+    labeled_argument     go to state 38
 
 
 State 33
 
-   24 di_statement: optional_label DI argument_list EOL .
+   25 di_statement: optional_label "DI" argument_list "end-of-line" .
 
-    $default  reduce using rule 24 (di_statement)
+    $default  reduce using rule 25 (di_statement)
 
 
 State 34
 
     8 bp_modifier: '+' . argument_expression
 
-    IDENTIFIER  shift, and go to state 28
-    INTEGER     shift, and go to state 16
+    "identifier"  shift, and go to state 28
+    "integer"     shift, and go to state 16
 
     argument_expression  go to state 39
 
@@ -450,15 +455,15 @@ State 35
 
     9 bp_modifier: '-' . argument_expression
 
-    IDENTIFIER  shift, and go to state 28
-    INTEGER     shift, and go to state 16
+    "identifier"  shift, and go to state 28
+    "integer"     shift, and go to state 16
 
     argument_expression  go to state 40
 
 
 State 36
 
-   10 relative_argument: '[' BP bp_modifier . ']'
+   10 relative_argument: '[' "BP" bp_modifier . ']'
 
     ']'  shift, and go to state 41
 
@@ -472,7 +477,7 @@ State 37
 
 State 38
 
-   19 argument_list: labeled_argument ',' argument_list .
+   19 argument_list: argument_list ',' labeled_argument .
 
     $default  reduce using rule 19 (argument_list)
 
@@ -493,6 +498,6 @@ State 40
 
 State 41
 
-   10 relative_argument: '[' BP bp_modifier ']' .
+   10 relative_argument: '[' "BP" bp_modifier ']' .
 
     $default  reduce using rule 10 (relative_argument)

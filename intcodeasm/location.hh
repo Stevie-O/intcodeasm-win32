@@ -54,7 +54,7 @@
 #  endif
 # endif
 
-#line 4 "intcodeasm.y"
+#line 5 "intcodeasm.y"
 namespace yy {
 #line 60 "location.hh"
 
@@ -317,7 +317,7 @@ namespace yy {
     return ostr;
   }
 
-#line 4 "intcodeasm.y"
+#line 5 "intcodeasm.y"
 } // yy
 #line 323 "location.hh"
 

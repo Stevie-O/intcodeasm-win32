@@ -41,7 +41,7 @@
 
 
 // Unqualified %code blocks.
-#line 18 "intcodeasm.y"
+#line 19 "intcodeasm.y"
 
   #include "lex.yy.h"  // header file generated with reflex --header-file
   #undef yylex
@@ -142,7 +142,7 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 4 "intcodeasm.y"
+#line 5 "intcodeasm.y"
 namespace yy {
 #line 148 "intcodeasm.tab.cc"
 
@@ -589,109 +589,115 @@ namespace yy {
           switch (yyn)
             {
   case 2:
-#line 35 "intcodeasm.y"
-    { lexer.out() << "statement" << endl; }
+#line 37 "intcodeasm.y"
+    { lexer.out() << "statement(1)" << endl; }
 #line 595 "intcodeasm.tab.cc"
     break;
 
-  case 4:
+  case 3:
 #line 38 "intcodeasm.y"
-    { lexer.out() << "(label) '" << yystack_[1].value.as < std::string > () << "'" << endl; }
+    { lexer.out() << "statement(2)" << endl; }
 #line 601 "intcodeasm.tab.cc"
     break;
 
-  case 6:
+  case 4:
 #line 40 "intcodeasm.y"
-    { lexer.out() << "(optional-label)" << endl; }
+    { lexer.out() << "(label) '" << yystack_[1].value.as < std::string > () << "'" << endl; }
 #line 607 "intcodeasm.tab.cc"
     break;
 
-  case 7:
+  case 6:
 #line 42 "intcodeasm.y"
-    { lexer.out() << "(argument-expression.IDENTIFIER) '" << yystack_[0].value.as < std::string > () << "'" << endl; }
+    { lexer.out() << "(optional-label)" << endl; }
 #line 613 "intcodeasm.tab.cc"
     break;
 
-  case 8:
-#line 43 "intcodeasm.y"
-    { lexer.out() << "(agrument-expression.INTEGER) " << yystack_[0].value.as < intmax_t > () << endl; }
+  case 7:
+#line 44 "intcodeasm.y"
+    { lexer.out() << "(argument-expression.IDENTIFIER) '" << yystack_[0].value.as < std::string > () << "'" << endl; }
 #line 619 "intcodeasm.tab.cc"
     break;
 
-  case 9:
-#line 44 "intcodeasm.y"
-    { lexer.out() << "(bp-modifier +)" << endl; }
+  case 8:
+#line 45 "intcodeasm.y"
+    { lexer.out() << "(agrument-expression.INTEGER) " << yystack_[0].value.as < intmax_t > () << endl; }
 #line 625 "intcodeasm.tab.cc"
     break;
 
-  case 10:
-#line 45 "intcodeasm.y"
-    { lexer.out() << "(bp-modifier -)" << endl; }
+  case 9:
+#line 46 "intcodeasm.y"
+    { lexer.out() << "(bp-modifier +)" << endl; }
 #line 631 "intcodeasm.tab.cc"
     break;
 
-  case 11:
-#line 46 "intcodeasm.y"
-    { lexer.out() << "(relative-argument)" << endl; }
+  case 10:
+#line 47 "intcodeasm.y"
+    { lexer.out() << "(bp-modifier -)" << endl; }
 #line 637 "intcodeasm.tab.cc"
     break;
 
-  case 12:
-#line 47 "intcodeasm.y"
-    { lexer.out() << "(absolute-argument)" << endl; }
+  case 11:
+#line 48 "intcodeasm.y"
+    { lexer.out() << "(relative-argument)" << endl; }
 #line 643 "intcodeasm.tab.cc"
     break;
 
-  case 13:
-#line 48 "intcodeasm.y"
-    { lexer.out() << "(immediate-argument)" << endl; }
+  case 12:
+#line 49 "intcodeasm.y"
+    { lexer.out() << "(absolute-argument)" << endl; }
 #line 649 "intcodeasm.tab.cc"
     break;
 
-  case 17:
-#line 53 "intcodeasm.y"
-    { lexer.out() << "(label-less argument)" << endl; }
+  case 13:
+#line 50 "intcodeasm.y"
+    { lexer.out() << "(immediate-argument)" << endl; }
 #line 655 "intcodeasm.tab.cc"
     break;
 
-  case 18:
-#line 54 "intcodeasm.y"
-    { lexer.out() << "(labeled argument)" << endl; }
+  case 17:
+#line 55 "intcodeasm.y"
+    { lexer.out() << "(label-less argument)" << endl; }
 #line 661 "intcodeasm.tab.cc"
     break;
 
-  case 21:
-#line 61 "intcodeasm.y"
-    { lexer.out() << "(instruction) '" << yystack_[0].value.as < std::string > () << "'" << endl; }
+  case 18:
+#line 56 "intcodeasm.y"
+    { lexer.out() << "(labeled argument)" << endl; }
 #line 667 "intcodeasm.tab.cc"
     break;
 
-  case 22:
-#line 62 "intcodeasm.y"
-    {  lexer.out() << "(instruction) '" << yystack_[1].value.as < std::string > () << "'" << endl; }
+  case 21:
+#line 63 "intcodeasm.y"
+    { lexer.out() << "(instruction) '" << yystack_[0].value.as < std::string > () << "'" << endl; }
 #line 673 "intcodeasm.tab.cc"
     break;
 
-  case 23:
-#line 63 "intcodeasm.y"
-    { lexer.out() << "(no instruction)" << endl; }
+  case 22:
+#line 64 "intcodeasm.y"
+    {  lexer.out() << "(instruction) '" << yystack_[1].value.as < std::string > () << "'" << endl; }
 #line 679 "intcodeasm.tab.cc"
     break;
 
-  case 25:
-#line 66 "intcodeasm.y"
-    { lexer.out() << "(instruction-statement)" << endl; }
+  case 23:
+#line 65 "intcodeasm.y"
+    { lexer.out() << "(no instruction)" << endl; }
 #line 685 "intcodeasm.tab.cc"
     break;
 
-  case 26:
-#line 67 "intcodeasm.y"
-    { lexer.out() << "(di-statement)" << endl; }
+  case 25:
+#line 68 "intcodeasm.y"
+    { lexer.out() << "(instruction-statement)" << endl; }
 #line 691 "intcodeasm.tab.cc"
     break;
 
+  case 26:
+#line 69 "intcodeasm.y"
+    { lexer.out() << "(di-statement)" << endl; }
+#line 697 "intcodeasm.tab.cc"
+    break;
 
-#line 695 "intcodeasm.tab.cc"
+
+#line 701 "intcodeasm.tab.cc"
 
             default:
               break;
@@ -962,25 +968,25 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -17;
+  const signed char parser::yypact_ninf_ = -18;
 
-  const signed char parser::yytable_ninf_ = -3;
+  const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-       5,    17,    16,   -17,    14,   -17,   -17,     4,   -17,   -17,
-      -2,    -2,   -17,    19,   -17,    17,   -17,     8,    -1,   -17,
-     -17,   -17,   -17,   -17,    15,   -17,    20,   -17,   -17,    13,
-      21,   -17,    -2,   -17,    18,    18,    22,   -17,   -17,   -17,
-     -17,   -17
+      20,    16,     8,   -18,     0,   -18,   -18,   -18,   -18,   -18,
+     -18,    -3,    -3,   -18,    18,    16,   -18,    15,    -2,   -18,
+     -18,   -18,   -18,   -18,   -18,    13,    -1,   -18,   -18,     5,
+      17,   -18,    -3,   -18,     7,     7,    19,   -18,   -18,   -18,
+     -18,   -18
   };
 
   const unsigned char
   parser::yydefact_[] =
   {
-       5,     0,     0,     6,    23,    27,    28,     5,     4,     1,
-      21,     0,    24,     0,     3,     7,     8,     0,     0,    13,
+       5,     0,     5,     6,    23,    27,    28,     2,     4,     1,
+       3,    21,     0,    24,     0,     7,     8,     0,     0,    13,
       15,    14,    16,    17,    19,    22,     0,    25,     7,     0,
        0,    18,     0,    26,     0,     0,     0,    12,    20,     9,
       10,    11
@@ -989,44 +995,42 @@ namespace yy {
   const signed char
   parser::yypgoto_[] =
   {
-     -17,    23,     7,   -17,   -16,   -17,   -17,   -17,   -17,    24,
-     -17,   -11,   -17,   -17,   -17,   -17,   -17
+     -18,   -18,    21,   -18,   -17,   -18,   -18,   -18,   -18,    10,
+       1,    22,   -18,   -18,   -18,   -18,    27
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
       -1,     2,    18,     4,    19,    36,    20,    21,    22,    23,
-      24,    25,    12,    13,     5,     6,     7
+      24,    25,    13,    14,     5,     6,     7
   };
 
-  const signed char
+  const unsigned char
   parser::yytable_[] =
   {
-      26,    30,    15,    28,    -2,    16,    16,     3,     1,     1,
-      17,    17,    28,    29,     3,    16,     9,    10,    39,    40,
-      11,    38,    28,    34,    35,    16,     8,    27,    33,    32,
-      14,     0,     0,     0,    37,    41,     0,     0,     0,     0,
-       0,     0,    31
+      30,    15,    28,    11,    16,    16,    12,    33,     9,    17,
+      17,    28,     1,    32,    16,    34,    35,    39,    40,    28,
+      29,     3,    16,     3,     1,     8,    27,    32,    31,    10,
+      37,     0,    41,    38,    26
   };
 
   const signed char
   parser::yycheck_[] =
   {
-      11,    17,     4,     4,     0,     7,     7,     0,     4,     4,
-      12,    12,     4,     5,     7,     7,     0,     3,    34,    35,
-       6,    32,     4,    10,    11,     7,     9,     8,     8,    14,
-       7,    -1,    -1,    -1,    13,    13,    -1,    -1,    -1,    -1,
-      -1,    -1,    18
+      17,     4,     4,     3,     7,     7,     6,     8,     0,    12,
+      12,     4,     4,    14,     7,    10,    11,    34,    35,     4,
+       5,     0,     7,     2,     4,     9,     8,    14,    18,     2,
+      13,    -1,    13,    32,    12
   };
 
   const unsigned char
   parser::yystos_[] =
   {
        0,     4,    16,    17,    18,    29,    30,    31,     9,     0,
-       3,     6,    27,    28,    16,     4,     7,    12,    17,    19,
+      31,     3,     6,    27,    28,     4,     7,    12,    17,    19,
       21,    22,    23,    24,    25,    26,    26,     8,     4,     5,
-      19,    24,    14,     8,    10,    11,    20,    13,    26,    19,
+      19,    24,    14,     8,    10,    11,    20,    13,    25,    19,
       19,    13
   };
 
@@ -1067,9 +1071,9 @@ namespace yy {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,    35,    35,    36,    38,    39,    40,    42,    43,    44,
-      45,    46,    47,    48,    49,    50,    51,    53,    54,    57,
-      58,    61,    62,    63,    64,    66,    67,    69,    70
+       0,    37,    37,    38,    40,    41,    42,    44,    45,    46,
+      47,    48,    49,    50,    51,    52,    53,    55,    56,    59,
+      60,    63,    64,    65,    66,    68,    69,    71,    72
   };
 
   // Print the state stack on the debug stream.
@@ -1102,9 +1106,9 @@ namespace yy {
 #endif // YYDEBUG
 
 
-#line 4 "intcodeasm.y"
+#line 5 "intcodeasm.y"
 } // yy
-#line 1108 "intcodeasm.tab.cc"
+#line 1112 "intcodeasm.tab.cc"
 
-#line 72 "intcodeasm.y"
+#line 74 "intcodeasm.y"
 
