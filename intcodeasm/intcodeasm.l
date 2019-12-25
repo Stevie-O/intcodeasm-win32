@@ -71,7 +71,6 @@ DI 					{ return yy::parser::make_KEYWORD_DI(location()); }
 <*>.				{ throw yy::parser::syntax_error(location(), "Unexpected character"); }
 
 <<EOF>> {
-	out() << "got EOF, need_eol = " << need_eol << std::endl;
 	if (need_eol) { need_eol = false; return yy::parser::make_EOL(location()); }
 	return yy::parser::symbol_type(0, location());
 }

@@ -151,7 +151,6 @@ yy::parser::symbol_type yy::Lexer::lex()
             {
 #line 73 "intcodeasm.l"
 {
-	out() << "got EOF, need_eol = " << need_eol << std::endl;
 	if (need_eol) { need_eol = false; return yy::parser::make_EOL(location()); }
 	return yy::parser::symbol_type(0, location());
 }
@@ -229,7 +228,6 @@ yy::parser::symbol_type yy::Lexer::lex()
             {
 #line 73 "intcodeasm.l"
 {
-	out() << "got EOF, need_eol = " << need_eol << std::endl;
 	if (need_eol) { need_eol = false; return yy::parser::make_EOL(location()); }
 	return yy::parser::symbol_type(0, location());
 }
